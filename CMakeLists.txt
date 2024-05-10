@@ -29,6 +29,8 @@ else()
     set(GAME_VERSION 3 CACHE STRING "The game version to use. Defaults to 3 == Last pre-plus release")
 endif()
 
+option(MANIA_BUG_FIX "Whether or not to build Mania with bug fixes. Defaults to true" ON)
+
 set(GAME_NAME "SonicMania" CACHE STRING "The game directory to look into")
 set(GAME_OUTPUT_NAME "Game" CACHE STRING "The name of the built library")
 
@@ -92,5 +94,6 @@ else()
         MANIA_PREPLUS=$<BOOL:${MANIA_PREPLUS}>
         MANIA_FIRST_RELEASE=$<BOOL:${MANIA_FIRST_RELEASE}>
         GAME_VERSION=${GAME_VERSION}
+		MANIA_BUG_FIX=$<BOOL:${MANIA_BUG_FIX}>
     )
 endif()

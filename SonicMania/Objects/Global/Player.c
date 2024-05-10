@@ -1371,7 +1371,11 @@ void Player_BlendSuperTailsColors(int32 bankID)
 
     // Bug Details:
     // add "- 1" to endIndex calculations to fix tails' super palette overwriting an extra colour
+#if !MANIA_BUG_FIX
     RSDK.SetLimitedFade(bankID, 6, 7, self->superBlendAmount, PLAYER_PALETTE_INDEX_TAILS, (PLAYER_PALETTE_INDEX_TAILS + PLAYER_PRIMARY_COLOR_COUNT));
+#else
+	RSDK.SetLimitedFade(bankID, 6, 7, self->superBlendAmount, PLAYER_PALETTE_INDEX_TAILS, (PLAYER_PALETTE_INDEX_TAILS + PLAYER_PRIMARY_COLOR_COUNT)-1);
+#endif
 }
 void Player_BlendSuperKnuxColors(int32 bankID)
 {
@@ -1407,7 +1411,11 @@ void Player_BlendSuperKnuxColors(int32 bankID)
 
     // Bug Details:
     // add "- 1" to endIndex calculations to fix knuckles's super palette overwriting an extra colour
+#if !MANIA_BUG_FIX
     RSDK.SetLimitedFade(bankID, 6, 7, self->superBlendAmount, PLAYER_PALETTE_INDEX_KNUX, (PLAYER_PALETTE_INDEX_KNUX + PLAYER_PRIMARY_COLOR_COUNT));
+#else
+	RSDK.SetLimitedFade(bankID, 6, 7, self->superBlendAmount, PLAYER_PALETTE_INDEX_KNUX, (PLAYER_PALETTE_INDEX_KNUX + PLAYER_PRIMARY_COLOR_COUNT)-1);
+#endif
 }
 #if MANIA_USE_PLUS
 void Player_BlendSuperMightyColors(int32 bankID)
@@ -1444,7 +1452,11 @@ void Player_BlendSuperMightyColors(int32 bankID)
 
     // Bug Details:
     // add "- 1" to endIndex calculations to fix mighty's super palette messing up a skin tone colour
+#if !MANIA_BUG_FIX
     RSDK.SetLimitedFade(bankID, 6, 7, self->superBlendAmount, PLAYER_PALETTE_INDEX_MIGHTY, (PLAYER_PALETTE_INDEX_MIGHTY + PLAYER_PRIMARY_COLOR_COUNT));
+#else
+	RSDK.SetLimitedFade(bankID, 6, 7, self->superBlendAmount, PLAYER_PALETTE_INDEX_MIGHTY, (PLAYER_PALETTE_INDEX_MIGHTY + PLAYER_PRIMARY_COLOR_COUNT)-1);
+#endif
 }
 void Player_BlendSuperRayColors(int32 bankID)
 {
@@ -1480,7 +1492,11 @@ void Player_BlendSuperRayColors(int32 bankID)
 
     // Bug Details:
     // add "- 1" to endIndex calculations to fix ray's super palette messing up a colour
+#if !MANIA_BUG_FIX
     RSDK.SetLimitedFade(bankID, 6, 7, self->superBlendAmount, PLAYER_PALETTE_INDEX_RAY, (PLAYER_PALETTE_INDEX_RAY + PLAYER_PRIMARY_COLOR_COUNT));
+#else
+	RSDK.SetLimitedFade(bankID, 6, 7, self->superBlendAmount, PLAYER_PALETTE_INDEX_RAY, (PLAYER_PALETTE_INDEX_RAY + PLAYER_PRIMARY_COLOR_COUNT)-1);
+#endif
 }
 #endif
 void Player_HandleSuperForm(void)
@@ -2324,8 +2340,13 @@ bool32 Player_CheckCollisionBox(EntityPlayer *player, void *e, Hitbox *entityHit
                 // velocity unless it says so, so its ignored due to the way collision works, this only happens on the left, as standing idle against
                 // a solid object on the right doesn't count as colliding, while standing on the left does Fix (idk why you'd want to): just place a
                 // check to make sure player->state isn't Player_State_Spindash here (example fix in the line below, only the velocity needs to be
-                // checked for to fix the bug) if (player->state != Player_State_Spindash)
-                player->groundVel = -0x8000;
+                // checked for to fix the bug) 
+#if MANIA_BUG_FIX
+				if (player->state != Player_State_Spindash)
+					player->groundVel = -0x8000;
+#else
+				player->groundVel = -0x8000;
+#endif
                 player->position.x &= 0xFFFF0000;
             }
             return C_LEFT;

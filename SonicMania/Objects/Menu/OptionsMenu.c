@@ -738,16 +738,28 @@ void OptionsMenu_AreYouSureDlg_YesCB_EraseSaveGame(void)
     // Mania Mode Slots
     for (int32 i = 0; i < 8; ++i) {
         int32 *saveRAM = SaveGame_GetDataPtr(i, false);
+#if MANIA_BUG_FIX
+        memset(saveRAM, 0, 0x1000);
+#else
         memset(saveRAM, 0, 0x400);
+#endif
     }
 
     // Encore Slots
     for (int32 i = 0; i < 3; ++i) {
         int32 *saveRAM = SaveGame_GetDataPtr(i, true);
+#if MANIA_BUG_FIX
+        memset(saveRAM, 0, 0x1000);
+#else
         memset(saveRAM, 0, 0x400);
+#endif
     }
 
+#if MANIA_BUG_FIX
+    memset(globals->noSaveSlot, 0, 0x1000);
+#else
     memset(globals->noSaveSlot, 0, 0x400);
+#endif
     globals->continues = 0;
 
     SaveGame_SaveFile(OptionsMenu_EraseSaveDataCB);

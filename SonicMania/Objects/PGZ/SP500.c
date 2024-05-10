@@ -411,7 +411,11 @@ void SP500_State_PrintFinished(void)
 
                     // Bug Details:
                     // this is broken for sonic, see Ink for more explanation and how to fix
+#if !MANIA_BUG_FIX
                     case ID_SONIC: RSDK.CopyPalette(6, PLAYER_PALETTE_INDEX_SONIC_OLD, 0, PLAYER_PALETTE_INDEX_SONIC_OLD, PLAYER_PRIMARY_COLOR_COUNT); break;
+#else
+                    case ID_SONIC: RSDK.CopyPalette(6, PLAYER_PALETTE_INDEX_SONIC, 0, PLAYER_PALETTE_INDEX_SONIC, PLAYER_PRIMARY_COLOR_COUNT); break;
+#endif
 
                     case ID_TAILS: RSDK.CopyPalette(6, PLAYER_PALETTE_INDEX_TAILS, 0, PLAYER_PALETTE_INDEX_TAILS, PLAYER_PRIMARY_COLOR_COUNT); break;
 

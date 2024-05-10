@@ -35,8 +35,14 @@ void Ink_Update(void)
                     // Fix:
                     // to fix this up to work as "intended", simply replace the "PLAYER_PALETTE_INDEX_SONIC_OLD"s with "PLAYER_PALETTE_INDEX_SONIC"
                     case ID_SONIC:
+#if MANIA_BUG_FIX
                         RSDK.CopyPalette(3 + self->type, PLAYER_PALETTE_INDEX_SONIC_OLD, 0, PLAYER_PALETTE_INDEX_SONIC_OLD,
                                          PLAYER_PRIMARY_COLOR_COUNT);
+#else
+						RSDK.CopyPalette(3 + self->type, PLAYER_PALETTE_INDEX_SONIC, 0, PLAYER_PALETTE_INDEX_SONIC,
+                                         PLAYER_PRIMARY_COLOR_COUNT);
+#endif
+
                         break;
 
                     case ID_TAILS:

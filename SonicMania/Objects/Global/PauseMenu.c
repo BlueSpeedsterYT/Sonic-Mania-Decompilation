@@ -183,7 +183,11 @@ void PauseMenu_SetupMenu(void)
     // this is due to rowCount being 3, while control->buttonCount is only 2
     // Fix:
     // set control->rowCount to control->buttonCount once it's been initialized, instead of using a constant value
+#if MANIA_BUG_FIX
+    control->buttonCount    = PAUSEMENU_BUTTON_COUNT;
+#else
     control->rowCount    = PAUSEMENU_BUTTON_COUNT;
+#endif
     control->columnCount = 1;
     control->buttonID    = 0;
     self->manager        = control;

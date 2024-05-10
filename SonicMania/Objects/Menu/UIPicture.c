@@ -29,7 +29,11 @@ void UIPicture_Draw(void)
     // This should use zoneID in the CopyPalette params right?
     // using zonePalette would just be 0 or 1 instead of 0-12 or so that you'd expect...
     if (self->zonePalette)
+#if !MANIA_BUG_FIX
         RSDK.CopyPalette((self->zonePalette >> 3) + 1, 32 * self->zonePalette, 0, 224, 32);
+#else
+        RSDK.CopyPalette((self->zoneID >> 3) + 1, 32 * self->zoneID, 0, 224, 32);
+#endif
 #else
     // And from the looks of it, this is actually how Pre-Plus Mania handles this?
     if (self->zonePalette)

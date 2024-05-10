@@ -269,11 +269,19 @@ void BallCannon_State_CorkBlocked(void)
                         // Bug Details:
                         // The original starts iterating 1 element before each corkDebris____ array.
                         // The code below was fixed. To reproduce the bug, change the offsets: "+ 0" ---> "- 1" and "+ 1" ---> "+ 0"
+#if MANIA_BUG_FIX
                         EntityBallCannon *debris =
                             CREATE_ENTITY(BallCannon, INT_TO_VOID((i & 3) + 1), self->position.x + BallCannon->corkDebrisOffset[(i * 2) + 0],
                                           self->position.y + BallCannon->corkDebrisOffset[(i * 2) + 1]);
                         debris->velocity.x = BallCannon->corkDebrisVelocity[(i * 2) + 0];
                         debris->velocity.y = BallCannon->corkDebrisVelocity[(i * 2) + 1];
+#else
+                        EntityBallCannon *debris =
+                            CREATE_ENTITY(BallCannon, INT_TO_VOID((i & 3) + 0), self->position.x + BallCannon->corkDebrisOffset[(i * 2) + 1],
+                                          self->position.y + BallCannon->corkDebrisOffset[(i * 2) + 0]);
+                        debris->velocity.x = BallCannon->corkDebrisVelocity[(i * 2) + 1];
+                        debris->velocity.y = BallCannon->corkDebrisVelocity[(i * 2) + 0];
+#endif
                     }
 
                     RSDK.PlaySfx(BallCannon->sfxLedgeBreak, false, 0xFF);

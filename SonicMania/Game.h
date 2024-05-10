@@ -84,6 +84,12 @@
 #define MANIA_USE_EGS  (GAME_VERSION == VER_107)
 
 // -------------------------
+// GAME VERSIONS
+// -------------------------
+
+#define MANIA_BUG_FIX (1) // This should fix any and all bugs introduced in Vanila/Decomp Mania.
+
+// -------------------------
 // GAME LOGIC
 // -------------------------
 

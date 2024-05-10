@@ -193,7 +193,11 @@ void MenuSetup_StageLoad(void)
     // sizeof(globals->noSaveSlot) and sizeof(saveData) is 4096 (sizeof(int32) * 0x400)
     // but the memset size is only 1024 (sizeof(uint8) * 0x400)
     // so only about 1/4th of the save slot is cleared, though nothin uses the extra space so it's not a big deal
+#if MANIA_BUG_FIX
+    memset(globals->noSaveSlot, 0, 0x1000);
+#else
     memset(globals->noSaveSlot, 0, 0x400);
+#endif
 
     globals->continues = 0;
 #if MANIA_USE_PLUS
@@ -1063,7 +1067,11 @@ void MenuSetup_SaveSlot_ActionCB(void)
         // sizeof(globals->noSaveSlot) and sizeof(saveData) is 4096 (sizeof(int32) * 0x400)
         // but the memset size is only 1024 (sizeof(uint8) * 0x400)
         // so only about 1/4th of the save slot is cleared, though nothin uses the extra space so it's not a big deal
-        memset(globals->noSaveSlot, 0, 0x400);
+#if MANIA_BUG_FIX
+		memset(globals->noSaveSlot, 0, 0x1000);
+#else
+		memset(globals->noSaveSlot, 0, 0x400);
+#endif
 
         globals->tempFlags  = 0;
         globals->saveSlotID = NO_SAVE_SLOT;
@@ -1080,7 +1088,11 @@ void MenuSetup_SaveSlot_ActionCB(void)
 
             // Bug Details(?):
             // see above
-            memset(saveData, 0, 0x400);
+#if MANIA_BUG_FIX
+			memset(saveData, 0, 0x1000);
+#else
+			memset(saveData, 0, 0x400);
+#endif
 
             saveRAM->saveState     = 1;
             saveRAM->characterID   = self->frameID;
@@ -1243,7 +1255,11 @@ void MenuSetup_TA_StartAttempt(void)
     // sizeof(globals->noSaveSlot) and sizeof(saveData) is 4096 (sizeof(int32) * 0x400)
     // but the memset size is only 1024 (sizeof(uint8) * 0x400)
     // so only about 1/4th of the save slot is cleared, though nothin uses the extra space so it's not a big deal
+#if MANIA_BUG_FIX
+    memset(globals->noSaveSlot, 0, 0x1000);
+#else
     memset(globals->noSaveSlot, 0, 0x400);
+#endif
 
     globals->continues  = 0;
     globals->saveSlotID = NO_SAVE_SLOT;
@@ -1414,7 +1430,11 @@ void MenuSetup_VS_StartMatch(void)
     // sizeof(globals->noSaveSlot) and sizeof(saveData) is 4096 (sizeof(int32) * 0x400)
     // but the memset size is only 1024 (sizeof(uint8) * 0x400)
     // so only about 1/4th of the save slot is cleared, though nothin uses the extra space so it's not a big deal
+#if MANIA_BUG_FIX
+    memset(globals->noSaveSlot, 0, 0x1000);
+#else
     memset(globals->noSaveSlot, 0, 0x400);
+#endif
 
     globals->continues  = 0;
     globals->saveSlotID = NO_SAVE_SLOT;

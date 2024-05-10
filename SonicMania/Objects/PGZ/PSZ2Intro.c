@@ -140,7 +140,11 @@ bool32 PSZ2Intro_Cutscene_RunToAct2(EntityCutsceneSeq *host)
             // before turning back into the character Player 1 is supposed to be.
             // Pretty odd, huh?
             // Change &player1->animator to &player2->animator to fix it.
+#if !MANIA_BUG_FIX
             RSDK.SetSpriteAnimation(player2->aniFrames, ANI_IDLE, &player1->animator, true, 0);
+#else
+            RSDK.SetSpriteAnimation(player2->aniFrames, ANI_IDLE, &player2->animator, true, 0);
+#endif
             player2->state      = Player_State_Ground;
             player2->up         = false;
             player2->stateInput = Player_Input_P2_AI;
@@ -162,6 +166,9 @@ bool32 PSZ2Intro_Cutscene_RunToAct2(EntityCutsceneSeq *host)
         return true;
     }
     else {
+#if MANIA_BUG_FIX
+		player1->direction = FLIP_NONE;
+#endif
         player1->right = true;
     }
 

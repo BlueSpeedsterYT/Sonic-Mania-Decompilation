@@ -163,7 +163,9 @@ void PhantomEgg_Hit(void)
                 cable->state = TMZCable_State_Destroyed;
                 // Bug Details:
                 // uncomment to fix a minor visual bug where the start few cable nodes wont be destroyed properly
-                // cable->timer = 0;
+#if MANIA_BUG_FIX
+                cable->timer = 0;
+#endif
             }
         }
 

@@ -136,6 +136,12 @@ void AIZSetup_StageLoad(void)
         // Fix:
         // AIZSetup->background4 = NULL;
         // (though you should prolly clear the other 3 as well)
+#if MANIA_BUG_FIX
+		AIZSetup->background1 = NULL;
+		AIZSetup->background2 = NULL;
+		AIZSetup->background3 = NULL;
+		AIZSetup->background4 = NULL;
+#endif
 
         for (int32 i = Zone->fgLayer[0]; i <= Zone->fgLayer[1]; ++i) {
             int32 *deformData = RSDK.GetTileLayer(i)->deformationDataW;

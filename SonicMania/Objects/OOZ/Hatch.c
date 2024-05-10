@@ -181,7 +181,11 @@ void Hatch_State_SubEntryHatch(void)
     RSDK.ProcessAnimation(&self->hatchAnimator);
 
     int32 entered = 0;
+#if !MANIA_BUG_FIX
     foreach_all(Player, player)
+#else
+	foreach_active(Player, player)
+#endif
     {
         // Bug Details:
         // this does foreach_all, instead of foreach_active
@@ -194,43 +198,50 @@ void Hatch_State_SubEntryHatch(void)
         // changed) and the player->active var will be set to ACTIVE_ALWAYS this means you can do really weird stuff such as move during the pause
         // menu
 
-        if (Player_CheckCollisionBox(player, self, &Hatch->hitboxL) == C_TOP) {
-            entered = 1;
-        }
-        else if (Player_CheckCollisionBox(player, self, &Hatch->hitboxR) == C_TOP) {
-            entered = 1;
-        }
-        else if (Player_CheckCollisionBox(player, self, &Hatch->hitboxEntry) == C_TOP) {
-            if (player->onGround) {
-                if (!player->sidekick) {
-                    self->active            = ACTIVE_NORMAL;
-                    self->playerPtr         = player;
-                    player->velocity.x      = 0;
-                    player->velocity.y      = 0;
-                    player->groundVel       = 0;
-                    player->nextAirState    = StateMachine_None;
-                    player->nextGroundState = StateMachine_None;
-                    player->interaction     = false;
+#if MANIA_BUG_FIX
+		if (Player_CheckValidState(player) != false)
+		{
+#endif
+			if (Player_CheckCollisionBox(player, self, &Hatch->hitboxL) == C_TOP) {
+				entered = 1;
+			}
+			else if (Player_CheckCollisionBox(player, self, &Hatch->hitboxR) == C_TOP) {
+				entered = 1;
+			}
+			else if (Player_CheckCollisionBox(player, self, &Hatch->hitboxEntry) == C_TOP) {
+				if (player->onGround) {
+					if (!player->sidekick) {
+						self->active            = ACTIVE_NORMAL;
+						self->playerPtr         = player;
+						player->velocity.x      = 0;
+						player->velocity.y      = 0;
+						player->groundVel       = 0;
+						player->nextAirState    = StateMachine_None;
+						player->nextGroundState = StateMachine_None;
+						player->interaction     = false;
 
-                    if (player->animator.animationID != ANI_JUMP)
-                        RSDK.PlaySfx(Player->sfxRoll, false, 0xFF);
+						if (player->animator.animationID != ANI_JUMP)
+							RSDK.PlaySfx(Player->sfxRoll, false, 0xFF);
 
-                    RSDK.SetSpriteAnimation(player->aniFrames, ANI_JUMP, &player->animator, false, 0);
-                    player->state = Player_State_Static;
-                    RSDK.SetSpriteAnimation(Hatch->aniFrames, 2, &self->hatchAnimator, false, 0);
-                    self->state = Hatch_State_PlayerEntered;
-                    entered     = 2;
-                    foreach_break;
-                }
-            }
-            else {
-                entered = 1;
-            }
-        }
-        else {
-            if (Player_CheckCollisionTouch(player, self, &Hatch->hitboxRange))
-                entered = 1;
-        }
+						RSDK.SetSpriteAnimation(player->aniFrames, ANI_JUMP, &player->animator, false, 0);
+						player->state = Player_State_Static;
+						RSDK.SetSpriteAnimation(Hatch->aniFrames, 2, &self->hatchAnimator, false, 0);
+						self->state = Hatch_State_PlayerEntered;
+						entered     = 2;
+						foreach_break;
+					}
+				}
+				else {
+					entered = 1;
+				}
+			}
+			else {
+				if (Player_CheckCollisionTouch(player, self, &Hatch->hitboxRange))
+					entered = 1;
+			}
+#if MANIA_BUG_FIX
+		}
+#endif
     }
 
     if (entered == 1) {

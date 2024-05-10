@@ -313,7 +313,11 @@ void UISubHeading_SaveButton_ActionCB(void)
         // but the memset size is only 1024 (sizeof(uint8) * 0x400)
         // so only about 1/4th of the save slot is cleared, though nothin uses the extra space so it's not a big deal
 
-        memset(globals->noSaveSlot, 0, 0x400);
+#if MANIA_BUG_FIX
+		memset(globals->noSaveSlot, 0, 0x1000);
+#else
+		memset(globals->noSaveSlot, 0, 0x400);
+#endif
         globals->continues  = 0;
         globals->saveSlotID = NO_SAVE_SLOT;
     }
@@ -327,7 +331,11 @@ void UISubHeading_SaveButton_ActionCB(void)
             // Bug Details(?):
             // see above
 
-            memset(saveData, 0, 0x400);
+#if MANIA_BUG_FIX
+			memset(saveRAM, 0, 0x1000);
+#else
+			memset(saveRAM, 0, 0x400);
+#endif
             if (globals->gameMode != MODE_ENCORE)
                 saveRAM->saveState = 1;
 

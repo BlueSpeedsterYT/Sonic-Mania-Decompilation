@@ -27,8 +27,10 @@ void FlingRamp_Update(void)
                     // Bug Details:
                     // this one's the same bug I detailed in SPZ/RockemSockem and was shown off in SDCC 2017
                     // if you glide into the fling ramp as knux the state wont be set to air so you'll be gliding with SPRINGCS anim playing
-                    // Fix: set the state to Player_State_Air (see fix commented below)
-                    // player->state    = Player_State_Air;
+                    // Fix: set the state to Player_State_Air (see fix below)
+#if MANIA_BUG_FIX
+                    player->state    = Player_State_Air;
+#endif
                     player->onGround = false;
                     RSDK.SetSpriteAnimation(player->aniFrames, ANI_SPRING_CS, &player->animator, true, 0);
                 }
@@ -41,8 +43,10 @@ void FlingRamp_Update(void)
                     // Bug Details:
                     // this one's the same bug I detailed in SPZ/RockemSockem and was shown off in SDCC 2017
                     // if you glide into the fling ramp as knux the state wont be set to air so you'll be gliding with SPRINGCS anim playing
-                    // Fix: set the state to Player_State_Air (see fix commented below)
-                    // player->state    = Player_State_Air;
+                    // Fix: set the state to Player_State_Air (see fix below)
+#if MANIA_BUG_FIX
+                    player->state    = Player_State_Air;
+#endif
                     player->onGround = false;
                     RSDK.SetSpriteAnimation(player->aniFrames, ANI_SPRING_CS, &player->animator, true, 0);
                 }

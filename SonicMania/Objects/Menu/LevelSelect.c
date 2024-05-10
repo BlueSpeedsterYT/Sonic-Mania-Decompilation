@@ -521,10 +521,12 @@ void LevelSelect_ManagePlayerIcon(void)
         case LSELECT_PLAYER_SONIC:
         case LSELECT_PLAYER_TAILS:
             // Bug Details(?):
+#if !MANIA_BUG_FIX
             if (self->sidekickCharacterID == LSELECT_PLAYER_TAILS) // if leader is sonic or tails, and the sidekick is tails... change to knux...?
                 self->leaderCharacterID = LSELECT_PLAYER_KNUCKLES;
             // playerID 3 may have been meant to be "S&T" before it was rearranged?
             // v4 support this, with the player ids being: Sonic, Tails, Knux, Sonic & Tails
+#endif
 
             player1->animator.frameID = self->leaderCharacterID;
             break;

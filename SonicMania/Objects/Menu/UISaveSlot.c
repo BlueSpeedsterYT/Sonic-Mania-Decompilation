@@ -845,7 +845,11 @@ void UISaveSlot_DeleteDLG_CB(void)
     // sizeof(globals->noSaveSlot) and sizeof(saveData) is 4096 (sizeof(int32) * 0x400)
     // but the memset size is only 1024 (sizeof(uint8) * 0x400)
     // so only about 1/4th of the save slot is cleared, though nothin uses the extra space so it's not a big deal
-    memset(saveRAM, 0, 0x400);
+#if MANIA_BUG_FIX
+    memset(globals->noSaveSlot, 0, 0x1000);
+#else
+    memset(globals->noSaveSlot, 0, 0x400);
+#endif
 
     SaveGame_SaveFile(UISaveSlot_DeleteSaveCB);
 }

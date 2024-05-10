@@ -221,9 +221,15 @@ void BSS_Player_Input_P2(void)
     // Fix:
     // replace "BSS_Player->jumpPressState |= self->jumpPress;" with "BSS_Player->jumpPressState |= player1->jumpPress;"
 
-    // EntityBSS_Player *player1 = RSDK_GET_ENTITY(SLOT_PLAYER1, BSS_Player);
+#if MANIA_BUG_FIX
+	EntityBSS_Player *player1 = RSDK_GET_ENTITY(SLOT_PLAYER1, BSS_Player);
+#endif
     BSS_Player->jumpPressState <<= 1;
+#if MANIA_BUG_FIX
+	BSS_Player->jumpPressState |= player1->jumpPress;
+#else
     BSS_Player->jumpPressState |= self->jumpPress;
+#endif
     BSS_Player->jumpPressState &= 0xFFFF;
 
     self->jumpPress = BSS_Player->jumpPressState >> 15;
